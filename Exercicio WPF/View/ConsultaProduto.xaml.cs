@@ -23,14 +23,20 @@ namespace Exercicio_WPF.View
     public partial class ConsultaProduto : Window
     {
         private readonly ProdutoController _produtoController;
-
         public ConsultaProduto()
         {
             InitializeComponent();
 
+            this.Activated += this.OnActivated;
+
             var app = (App)Application.Current;
             _produtoController = app.GetServiceProvider().GetService<ProdutoController>();
 
+            CarregarProdutos();
+        }
+
+        private void OnActivated(object sender, EventArgs e)
+        {
             CarregarProdutos();
         }
 
@@ -45,6 +51,14 @@ namespace Exercicio_WPF.View
 
             if (produtoSelecionado != null )
             {
+                var produto = _produtoController.BuscarProduto(produtoSelecionado.Cod);
+
+                if (produto.Ativo) 
+                {
+                    MessageBox.Show("Não é possível remover um produto ativo.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 string mensagem = $"Tem certeza que deseja remover o produto '{produtoSelecionado.Descricao}'?";
 
                 if (MessageBox.Show(mensagem, "Confirmar Remoção", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -62,8 +76,17 @@ namespace Exercicio_WPF.View
 
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
-            CadastroProduto frmCadastroProduto = new CadastroProduto();
-            frmCadastroProduto.Show();
+            var produtoSelecionado = gridProdutos.SelectedItem as ProdutoDTO;
+
+            if (produtoSelecionado != null)
+            {
+                ProdutoModel produto = _produtoController.BuscarProduto(produtoSelecionado.Cod);
+                if (produto != null)
+                {
+                    CadastroProduto frmCadastroProduto = new CadastroProduto(produto);
+                    frmCadastroProduto.Show();
+                }
+            }
         }
     }
 }

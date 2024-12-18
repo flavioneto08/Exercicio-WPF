@@ -5,23 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercicio_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="363" Width="653">
+        Title="Menu Principal" Height="363" Width="653"
+        Background="#212020">
     <Grid Margin="0,0,20,18">
-        <Button x:Name="btnConsulta" Content="Consultar" HorizontalAlignment="Left" Margin="165,194,0,0" VerticalAlignment="Top" Height="49" Width="121" Click="btnConsulta_Click">
+        <Button x:Name="btnConsulta" Background="#3d3b3b" Foreground="White" Content="Consultar" HorizontalAlignment="Left" Margin="165,194,0,0" VerticalAlignment="Top" Height="49" Width="121" Click="btnConsulta_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"></Setter>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnCadastro" Content="Cadastrar" HorizontalAlignment="Left" Margin="370,194,0,0" VerticalAlignment="Top" Height="49" Width="121" Click="btnCadastro_Click">
+        <Button x:Name="btnCadastro" Background="#3d3b3b" Foreground="White"  Content="Cadastrar" HorizontalAlignment="Left" Margin="370,194,0,0" VerticalAlignment="Top" Height="49" Width="121" Click="btnCadastro_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Label Content="T4L Produtos" FontSize ="50" HorizontalAlignment="Left" Margin="175,56,0,0" VerticalAlignment="Top" Height="75" Width="316" FontFamily="Global User Interface"/>
+        <Label Content="T4L Produtos" Foreground="#b00b0b" FontSize ="50" HorizontalAlignment="Left" Margin="175,56,0,0" VerticalAlignment="Top" Height="75" Width="316" FontFamily="Global User Interface"/>
 
     </Grid>
 </Window>

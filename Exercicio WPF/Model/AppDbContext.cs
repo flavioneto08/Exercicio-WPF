@@ -22,25 +22,22 @@ namespace Exercicio_WPF.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Mapeia ProdutoModel para a tabela "produto"
             modelBuilder.Entity<ProdutoModel>(entity =>
             {
-                entity.ToTable("produto"); // Define o nome da tabela no banco de dados
+                entity.ToTable("produto");
 
                 entity.Property(p => p.CodBarra)
-                      .IsRequired(false); // Permite que CodBarra seja nullable
+                      .IsRequired(false);
             });
 
-            // Mapeia ProdutoGrupoModel para a tabela "produto_grupo"
             modelBuilder.Entity<Produto_GrupoModel>()
                 .ToTable("produto_grupo");
 
-            // Configuração do relacionamento entre Produto e ProdutoGrupo
             modelBuilder.Entity<ProdutoModel>()
-                .HasOne(p => p.Produto_Grupo)          // Produto tem um Produto_Grupo
-                .WithMany(g => g.Produto)            // Produto_Grupo tem muitos Produtos
-                .HasForeignKey(p => p.CodGrupo)       // Define a Foreign Key como CodGrupo
-                .HasConstraintName("fk_produtoCodGrupo"); // Nome opcional da constraint
+                .HasOne(p => p.Produto_Grupo)        
+                .WithMany(g => g.Produto)            
+                .HasForeignKey(p => p.CodGrupo)      
+                .HasConstraintName("fk_produtoCodGrupo"); 
 
             base.OnModelCreating(modelBuilder);
         }

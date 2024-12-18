@@ -24,6 +24,7 @@ namespace Exercicio_WPF.View
     public partial class CadastroProduto : Window
     {
         private readonly ProdutoController _produtoController;
+        private ProdutoModel _produto;
         public CadastroProduto()
         {
             InitializeComponent();
@@ -32,6 +33,29 @@ namespace Exercicio_WPF.View
             _produtoController = app.GetServiceProvider().GetService<ProdutoController>();
 
             PreencherComboBox();
+        }
+
+        public CadastroProduto(ProdutoModel produto)
+        {
+            InitializeComponent();
+
+            var app = (App)Application.Current;
+            _produtoController = app.GetServiceProvider().GetService<ProdutoController>();
+
+            _produto = produto;
+
+            PreencherComboBox();
+            PreencherCampos();
+        }
+
+        private void PreencherCampos()
+        {
+            txtNomeProduto.Text = _produto.Descricao;
+            txtCodigoBarras.Text = _produto.CodBarra;
+            txtPrecoCusto.Text = _produto.PrecoCusto.ToString("N2");
+            txtPrecoVenda.Text = _produto.PrecoVenda.ToString("N2");
+            cbxGrupo.SelectedValue = _produto.CodGrupo;
+            chkAtivo.IsChecked = _produto.Ativo;
         }
 
         private void PreencherComboBox()
@@ -43,26 +67,36 @@ namespace Exercicio_WPF.View
         {
             try
             {
-                ValidarCampos();
+                var campos = new List<TextBox> { txtNomeProduto, txtPrecoCusto, txtPrecoVenda };
 
-                if (CamposValidos())
+                if (ValidarCampos(campos))
                 {
+                    int codNovo = _produto?.Cod ?? _produtoController.CodigoIncremental();
                     var novoProduto = new ProdutoModel
                     {
+                        Cod = codNovo,
                         Descricao = txtNomeProduto.Text,
                         CodBarra = txtCodigoBarras.Text,
                         PrecoCusto = decimal.Parse(txtPrecoCusto.Text),
                         PrecoVenda = decimal.Parse(txtPrecoVenda.Text),
                         CodGrupo = (int)cbxGrupo.SelectedValue,
-                        Ativo = chkAtivo.IsChecked == true,
-                        DataHoraCadastro = DateTime.Now
+                        Ativo = chkAtivo.IsChecked ?? false,
+                        DataHoraCadastro = _produto?.DataHoraCadastro ?? DateTime.Now
                     };
 
-                    _produtoController.AdicionarProduto(novoProduto);
-
-                    ResetarValidacao();
-
-                    MessageBox.Show("Produto cadastrado com sucesso!", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (_produtoController.VerificaProduto(novoProduto.Cod))
+                    {
+                        _produtoController.AtualizarProduto(novoProduto);
+                        MessageBox.Show("Produto atualizado com sucesso!", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                        var frmConsultaProduto = new ConsultaProduto();
+                        frmConsultaProduto.Activate();
+                        this.Close();
+                    }
+                    else
+                    {
+                        _produtoController.AdicionarProduto(novoProduto);
+                        MessageBox.Show("Produto cadastrado com sucesso!", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
 
                     LimparFormulario();
                 }
@@ -83,51 +117,36 @@ namespace Exercicio_WPF.View
             chkAtivo.IsChecked = false;
         }
 
-        private void ValidarCampos()
+        private bool ValidarCampos(List<TextBox> campos)
         {
-            // Resetar bordas antes da validação
-            txtNomeProduto.Tag = null;
-            txtPrecoCusto.Tag = null;
-            txtPrecoVenda.Tag = null;
-            cbxGrupo.Tag = null;
+            bool valido = true;
+           
+            lblErroGrupo.Visibility = Visibility.Hidden;
 
             if (string.IsNullOrWhiteSpace(txtNomeProduto.Text) || string.IsNullOrWhiteSpace(txtPrecoCusto.Text) || string.IsNullOrWhiteSpace(txtPrecoVenda.Text) || cbxGrupo.SelectedValue == null)
             {
                 MessageBox.Show("Preencha os campos indicados", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            // Nome do Produto
-            if (string.IsNullOrWhiteSpace(txtNomeProduto.Text))
-                txtNomeProduto.Tag = "Error";
+            foreach (var campo in campos) 
+            {
+                if (string.IsNullOrWhiteSpace(campo.Text))
+                {
+                    campo.Tag = "Invalido";
+                    valido = false;
+                }
+                else
+                {
+                    campo.Tag = null;
+                }
+            }
+            if (cbxGrupo.SelectedIndex == -1)
+            {
+                lblErroGrupo.Visibility = Visibility.Visible;
+                valido = false;
+            }
 
-            // Preço de Custo
-            if (string.IsNullOrWhiteSpace(txtPrecoCusto.Text))
-                txtPrecoCusto.Tag = "Error";
-
-            // Preço de Venda
-            if (string.IsNullOrWhiteSpace(txtPrecoVenda.Text))
-                txtPrecoVenda.Tag = "Error";
-
-            // ComboBox Grupo
-            if (cbxGrupo.SelectedValue == null)
-                cbxGrupo.Tag = "Error";
-        }
-
-        private bool CamposValidos()
-        {
-            return txtNomeProduto.Tag == null &&
-                   txtPrecoCusto.Tag == null &&
-                   txtPrecoVenda.Tag == null &&
-                   cbxGrupo.Tag == null;
-        }
-
-        private void ResetarValidacao()
-        {
-            // Reseta as Tags
-            txtNomeProduto.Tag = null;
-            txtPrecoCusto.Tag = null;
-            txtPrecoVenda.Tag = null;
-            cbxGrupo.Tag = null;
+            return valido;
         }
     }
 }

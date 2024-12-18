@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercicio_WPF.View"
         mc:Ignorable="d"
-        Title="ConsultaProduto" Height="420" Width="775">
+        Title="Consultar Produtos" Height="420" Width="775"
+        Background="#212020">
     <Grid>
         <DataGrid x:Name="gridProdutos" AutoGenerateColumns="False" Margin="10,10,10,52" AlternatingRowBackground="LightGray" IsReadOnly="True" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" >
             <DataGrid.Columns>
@@ -16,14 +17,14 @@
             <DataGridTextColumn Header="PrecoVenda" Binding="{Binding PrecoVenda}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnRemover" Content="Remover" HorizontalAlignment="Right" Margin="0,0,130,5" VerticalAlignment="Bottom" Height="42" Width="110" Click="btnRemover_Click">
+        <Button x:Name="btnRemover" Background ="#3d3b3b" Foreground="White" Content="Remover" HorizontalAlignment="Right" Margin="0,0,130,5" VerticalAlignment="Bottom" Height="42" Width="110" Click="btnRemover_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnEditar" Content="Editar" HorizontalAlignment="Right" Margin="0,0,10,5" VerticalAlignment="Bottom" Height="42" Width="110" Click="btnEditar_Click">
+        <Button x:Name="btnEditar" Background ="#3d3b3b" Foreground="White" Content="Editar" HorizontalAlignment="Right" Margin="0,0,10,5" VerticalAlignment="Bottom" Height="42" Width="110" Click="btnEditar_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5"/>

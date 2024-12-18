@@ -5,83 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercicio_WPF.View"
         mc:Ignorable="d"
-        Title="CadastroProduto" Height="415" Width="775">
-    <Window.Resources>
-        <!-- Estilo para animação de borda piscante -->
-        <Style x:Key="BlinkingBorderStyle" TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="Gray" />
-            <!-- Cor padrão da borda -->
-            <Style.Triggers>
-                <Trigger Property="Tag" Value="Error">
-                    <Setter Property="BorderBrush" Value="Red" />
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard RepeatBehavior="Forever" AutoReverse="True">
-                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
-                                            From="Red" To="Transparent" Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        Title="Cadastrar Produto" Height="415" Width="775"
+        Background="#212020">
 
-        <Style x:Key="BlinkingComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="BorderBrush" Value="Gray" />
-            <Style.Triggers>
-                <Trigger Property="Tag" Value="Error">
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard RepeatBehavior="Forever" AutoReverse="True">
-                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
-                                            From="Red" To="Transparent" Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
     <Grid>
-        <TextBox x:Name="txtNomeProduto" Style="{StaticResource BlinkingBorderStyle}" HorizontalAlignment="Left" Margin="215,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486"/>
-        <Label Content="Nome do Produto:" FontSize="20" HorizontalAlignment="Left" Margin="21,67,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtCodigoBarras" HorizontalAlignment="Left" Margin="215,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486"/>
-        <Label Content="Código de Barras:" FontSize="20" HorizontalAlignment="Left" Margin="30,129,0,0" VerticalAlignment="Top"/>
-        <Label Content="Preço de Custo:" FontSize="20" HorizontalAlignment="Left" Margin="48,195,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtPrecoCusto" Style="{StaticResource BlinkingBorderStyle}"  HorizontalAlignment="Left" Margin="215,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486"/>
-        <Label Content="Preço de Venda:" FontSize="20" HorizontalAlignment="Left" Margin="44,266,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtPrecoVenda" Style="{StaticResource BlinkingBorderStyle}"  HorizontalAlignment="Left" Margin="215,267,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486"/>
-        <Label Content="Grupo:" FontSize="20" HorizontalAlignment="Left" Margin="462,26,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbxGrupo" Style="{StaticResource BlinkingComboBoxStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="462,68,0,0" VerticalAlignment="Top" Width="172" Height="34" DisplayMemberPath="Nome" SelectedValuePath="Cod"/>
-        <CheckBox x:Name="chkAtivo" Content="Ativo" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="462,129,0,0">
+        <TextBox x:Name="txtNomeProduto" HorizontalAlignment="Left" Margin="251,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Tag" Value="Invalido">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Label Content="Nome do Produto:" Foreground="White" FontSize="20" HorizontalAlignment="Left" Margin="57,71,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtCodigoBarras" HorizontalAlignment="Left" Margin="251,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486"/>
+        <Label Content="Código de Barras:" Foreground="White"  FontSize="20" HorizontalAlignment="Left" Margin="66,133,0,0" VerticalAlignment="Top"/>
+        <Label Content="Preço de Custo:" Foreground="White"  FontSize="20" HorizontalAlignment="Left" Margin="84,199,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPrecoCusto" HorizontalAlignment="Left" Margin="251,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Tag" Value="Invalido">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Label Content="Preço de Venda:" Foreground="White"  FontSize="20" HorizontalAlignment="Left" Margin="80,270,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPrecoVenda" HorizontalAlignment="Left" Margin="251,271,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="170" Height="34" RenderTransformOrigin="0.991,0.486">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Tag" Value="Invalido">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Label Content="Grupo:" Foreground="White" FontSize="20" HorizontalAlignment="Left" Margin="498,30,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbxGrupo" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="498,72,0,0" VerticalAlignment="Top" Width="172" Height="34" DisplayMemberPath="Nome" SelectedValuePath="Cod"/>
+        <CheckBox x:Name="chkAtivo"
+          Foreground="White"
+          Content="Ativo"
+          FontSize="20"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Margin="498,133,0,0">
             <CheckBox.Template>
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <!-- Caixa de Seleção -->
-                        <Border Name="CheckBorder" Width="20" Height="20" BorderThickness="2" BorderBrush="Black" Margin="0,0,10,0">
-                            <Grid Background="Transparent">
-                                <Rectangle Name="CheckMark" Fill="Black" Visibility="Hidden"/>
-                            </Grid>
+                        <Border Name="CheckBorder"
+                        Width="20"
+                        Height="20"
+                        BorderThickness="2"
+                        BorderBrush="White"
+                        Margin="0,0,10,0"
+                        Background="Transparent">
+                            <TextBlock x:Name="CheckMark"
+                               Text="✔"
+                               Foreground="White"
+                               FontSize="16"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"/>
                         </Border>
                         <!-- Texto do CheckBox -->
                         <ContentPresenter VerticalAlignment="Center"/>
                     </StackPanel>
                     <!-- Estados de Seleção -->
                     <ControlTemplate.Triggers>
+                        <!-- Quando o CheckBox estiver selecionado, mostra o ✔ -->
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <!-- Quando o CheckBox não estiver selecionado, esconde o ✔ -->
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Hidden"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </CheckBox.Template>
         </CheckBox>
-        <Button x:Name="btnSalvar" Content="Salvar" FontSize="20" HorizontalAlignment="Left" Margin="588,298,0,0" VerticalAlignment="Top" Height="49" Width="121" Click="btnSalvar_Click">
+        <Button x:Name="btnSalvar" Background ="#3d3b3b" Foreground="White"  Content="Salvar" FontSize="20" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="49" Width="121" Click="btnSalvar_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
+        <Label x:Name="lblErroGrupo" Content="*" FontSize="25" Foreground="Red" HorizontalAlignment="Left" Margin="675,68,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
 
     </Grid>
 </Window>

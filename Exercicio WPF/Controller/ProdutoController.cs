@@ -21,6 +21,7 @@ namespace Exercicio_WPF.Controller
         {
             var produtos = _context.Produto
                 .Include(p => p.Produto_Grupo)
+                .OrderBy(p => p.Cod)
                 .Select(p => new ProdutoDTO
                 {
                     Cod = p.Cod,
@@ -53,7 +54,6 @@ namespace Exercicio_WPF.Controller
 
         public List<Produto_GrupoModel> ListarNomesDosGrupos()
         {
-            // Retorna apenas os nomes dos grupos da tabela produto_grupo
             return _context.Produto_Grupo
                            .Select(g => new Produto_GrupoModel
                            {
@@ -61,6 +61,50 @@ namespace Exercicio_WPF.Controller
                                Nome = g.Nome,
                            })
                            .ToList();
+        }
+
+        public ProdutoModel BuscarProduto(int cod)
+        {
+            var produto = _context.Produto.FirstOrDefault(p => p.Cod == cod);
+
+            if (produto == null)
+            {
+                throw new InvalidOperationException($"Produto com o código {cod} não foi encontrado.");
+            }
+
+            return produto;
+        }
+
+        public bool VerificaProduto(int cod)
+        {
+            return _context.Produto.Any(p => p.Cod == cod);
+        }
+
+        public int CodigoIncremental()
+        {
+            var ultimoCod = _context.Produto
+                .OrderByDescending(p => p.Cod)
+                .Select(p => p.Cod)
+                .FirstOrDefault();
+
+            return ultimoCod + 1;
+        }
+
+        public void AtualizarProduto(ProdutoModel produto)
+        {
+            var produtoExistente = _context.Produto.FirstOrDefault(p => p.Cod == produto.Cod);
+
+            if (produtoExistente != null)
+            {
+                produtoExistente.Descricao = produto.Descricao;
+                produtoExistente.CodBarra = produto.CodBarra;
+                produtoExistente.PrecoCusto = produto.PrecoCusto;
+                produtoExistente.PrecoVenda = produto.PrecoVenda;
+                produtoExistente.CodGrupo = produto.CodGrupo;
+                produtoExistente.Ativo = produto.Ativo;
+
+                _context.SaveChanges();
+            }
         }
     }
 }
